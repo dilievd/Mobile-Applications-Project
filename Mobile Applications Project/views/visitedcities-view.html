@@ -1,0 +1,23 @@
+<!--Visited Cities-->
+<div id="visitedcities-view" 
+     data-id="visitedcities-view"
+     data-role="view"  
+     data-title="Visited Cities"
+     data-layout="main-layout"
+     data-show="app.cities.init">
+    
+    <ul data-role="buttongroup" 
+        data-index="0" 
+        data-select="app.onSelect">
+        <li>Alphabetically</li>
+        <li>Last Visited</li>
+    </ul>
+    
+    <ul id="visited-cities" 
+        data-role="listview" 
+        data-bind="source: cities" 
+        data-style="inset" 
+        data-template="city-template">
+    </ul>
+    
+</div>
