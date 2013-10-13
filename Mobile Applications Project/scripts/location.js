@@ -18,9 +18,40 @@
 
             navigator.geolocation.getCurrentPosition(
                 function (position) {
+                    var currLatitude = position.coords.latitude;
+                    var currLongitude = position.coords.longitude;
                     position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                     map.panTo(position);
                     that._putMarker(position);
+                    
+                    // check if in any of the towns
+                    sqlite.getCitiesByName(getCities);
+                    function getCities(tx, rs) {
+                        for (var i = 0; i < rs.rows.length; i++) {
+                            //rs.rows.item(i)
+                            var distance = utilities.getDistance(currLatitude, currLongitude, rs.rows.item(i).latitude, rs.rows.item(i).longitude);
+                            console.log(rs.rows.item(i).name + " - > " + distance); 
+                            if (distance < 15) {
+                                if (rs.rows.item(i).visited == 1) {
+                                    navigator.notification.alert(
+                                        'Your last visit here was at: ' + rs.rows.item(i).date + '!',  // message
+                                        function() {},                                                 // callback
+                                        'Welcome back to ' + rs.rows.item(i).name,                     // title
+                                        'Got it!'                                                      // buttonName
+                                    );
+                                }
+                                else {
+                                    navigator.notification.alert(
+                                        'You added ' + rs.rows.item(i).name + ' to your visited cities!',  // message
+                                        function() {},                                                     // callback
+                                        'Welcome!',                                                        // title
+                                        'Got it!'                                                          // buttonName
+                                    );
+                                }
+                                 sqlite.markCityAsVisited(rs.rows.item(i).name);
+                            }
+                        }
+                    }
 
                     that._isLoading = false;
                     that.hideLoading();
@@ -38,7 +69,7 @@
                 },
                 {
                     timeout: 30000,
-                    enableHighAccuracy: true
+                    enableHighAccuracy: false
                 }
             );
         },

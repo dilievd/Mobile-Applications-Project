@@ -12,19 +12,20 @@
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
         <script type="text/javascript" charset="utf-8" src="Plugins/com.phonegap.plugins.sqlite-0.0.4/www/SQLitePlugin.js"></script>
 
-        <script src="scripts/location.js"></script>
+        <script src="scripts/utilities.js"></script>
         <script src="scripts/database.js"></script>
+        <script src="scripts/location.js"></script>
         <script src="scripts/app.js"></script>
         
         <style>
-            .city-item>h3
-            {
+            .city-item {
                 display: inline-block; 
+                color: Black;
+            }
+            .city-item>.city-name{
                 float: left;
             }
-            .city-item>h4
-            {
-                display: inline-block; 
+            .city-item>.city-lastvisitdate{
                 float: right;
             }
         </style>
@@ -38,6 +39,9 @@
              data-title="Home"
              data-layout="main-layout">
             <span data-bind="text: app.cities.length"></span>
+            
+            <!--TODO: bind field to visited/all cities-->
+            
         </div>
         
         <!--Layout-->
@@ -61,11 +65,11 @@
         
         <script type="text/x-kendo-tmpl"  id="city-template">
             <li class="city-item" #if (visited) {
-            #style="background:green"#}
+            #style="background:rgb(176,231,193)"#}
                 else {
-            #style="background:red"#}#>
-                <h3>#: name #</h3>
-                <h4>#: date #</h4>
+            #style="background:lightgrey"#}#>
+                <div class="city-name">#: name #</div>
+                <div class="city-lastvisitdate">#: date #</div>
             </li>
         </script>
     </body>

@@ -17,8 +17,8 @@ var sqlite = (function() {
             tx.executeSql("CREATE TABLE IF NOT EXISTS Cities" +
                           "(id INTEGER PRIMARY KEY ASC, " +
                           "name TEXT UNIQUE, " +
-                          "longitude TEXT, " +
-                          "latitude TEXT, " + 
+                          "longitude DOUBLE, " +
+                          "latitude DOUBLE, " + 
                           "date TEXT, " +
                           "visited BIT);", []);
         });
@@ -71,6 +71,18 @@ var sqlite = (function() {
         app.selectAllRecordsByDate(handleReceivedData);
     }
     
+    app.selectAllRecordsByVisited = function(fn) {
+        app.db.transaction(function(tx) {
+            tx.executeSql("SELECT * FROM Cities WHERE visited = 1;", [],
+                          fn,
+                          app.onError);
+        });
+    }
+    
+    function getAllRecordsByVisited(handleReceivedData) {
+        app.selectAllRecordsByVisited(handleReceivedData);
+    }
+    
     app.deleteAllRecords = function() {
         app.db.transaction(function(tx) {
             tx.executeSql("DELETE FROM Cities;",
@@ -79,43 +91,6 @@ var sqlite = (function() {
                           app.onError);
         });
     }
-
-    /*
-    app.selectRecordsCount = function(fn) {
-        app.db.transaction(function(tx) {
-            tx.executeSql("SELECT COUNT(*) FROM Cities;", [],
-                          fn,
-                          app.onError);
-        });
-    }
-    
-    function getCount(handleReceivedData) {
-        app.selectRecordsCount(handleReceivedData);
-    }
-    
-    app.selectRecordsByName = function(fn) {
-        app.db.transaction(function(tx) {
-            tx.executeSql("SELECT * FROM Cities WHERE visited = 1 ORDER BY name;", [],
-                          fn,
-                          app.onError);
-        });
-    }
-
-    app.selectRecordsByDate = function(fn) {
-        app.db.transaction(function(tx) {
-            tx.executeSql("SELECT * FROM Cities WHERE visited = 1 ORDER BY date;", [],
-                          fn,
-                          app.onError);
-        });
-    }
-
-    function getDataByName(handleReceivedData) {
-        app.selectRecordsByName(handleReceivedData);
-    }
-
-    function getDataByDate(handleReceivedData) {
-        app.selectRecordsByDate(handleReceivedData);
-    }*/
 
     app.onSuccess = function(tx, r) {
         console.log("Your SQLite query was successful!");
@@ -135,6 +110,7 @@ var sqlite = (function() {
     return {
         getCitiesByName:getAllRecordsByName,
         getCitiesByDate:getAllRecordsByDate,
+        getVisitedCities:getAllRecordsByVisited,
         markCityAsVisited:app.updateRecord,
         clearDb:app.deleteAllRecords,
         addCity:app.insertRecord

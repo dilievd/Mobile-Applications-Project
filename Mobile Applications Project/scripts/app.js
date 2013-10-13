@@ -10,15 +10,24 @@ var app = app || {};
     
     //sqlite.clearDb();
     
+    sqlite.getVisitedCities(getVisitedCitiesCount);
+    function getVisitedCitiesCount(tx, rs) {
+        a.visitedCitiesCount = rs.rows.length;
+    }
+    
     sqlite.getCitiesByName(getCitiesCount);
     function getCitiesCount(tx, rs) {
         if (rs.rows.length == 0) {
             // db is empty -> add cities
-            sqlite.addCity("Sofia", "42.720786", "23.321013", "");
-            sqlite.addCity("Burgas", "42.50754", "27.462704", "");
-            sqlite.addCity("Varna", "43.212182", "27.910713", "");
-            sqlite.addCity("Plovdiv", "42.142023", "24.745964", "");
-            sqlite.addCity("Veliko Tarnovo", "43.078167", "25.618202", "");
+            sqlite.addCity("Burgas", 42.50754, 27.462704, "");
+            sqlite.addCity("Plovdiv", 42.142023, 24.745964, "");
+            sqlite.addCity("Sofia", 42.720786, 23.321013, "");
+            sqlite.addCity("Varna", 43.212182, 27.910713, "");
+            sqlite.addCity("Veliko Tarnovo", 43.078167, 25.618202, "");
+            //sqlite.markCityAsVisited("Sofia");
+        }
+        else {
+            a.allCitiesCount = rs.rows.length;
         }
     }
     
@@ -59,16 +68,30 @@ var app = app || {};
         var index = this.current().index();
         if (index == 0) {
             getAlphabetically();
-            console.log(0);
         }
         else {
             getByDate();
-            console.log(1);
         }
     }
-
+    
     document.addEventListener("deviceready", function () {
         app.application = new kendo.mobile.Application(document.body, { layout: "main-layout" });
+    }, false);
+    
+    function onConfirm(buttonIndex) {
+        if (buttonIndex == 1) {
+            app.locationService.initLocation();
+        }
+    }
+    
+    document.addEventListener("resume", function() {
+        navigator.notification.confirm(
+            'Do you want to check in now?',
+            onConfirm,
+            'There you are!',
+            'Sure!,Nope'
+        );
+       
     }, false);
 
 })(app);
