@@ -39,7 +39,7 @@ var sqlite = (function() {
         app.db.transaction(function(tx) {
             var currentDate = new Date();
             var day = currentDate.getDate();
-            var month = currentDate.getMonth() + 1;
+            var month = currentDate.getMonth() + 3;
             var year = currentDate.getFullYear();
             var today = day + "/" + month + "/" + year;
             tx.executeSql("UPDATE Cities SET visited = ?, date = ? WHERE name = ?;",
@@ -102,6 +102,7 @@ var sqlite = (function() {
 
     app.onSuccess = function(tx, r) {
         console.log("Your SQLite query was successful!");
+        app.initializeChart();
     }
 
     app.onError = function(tx, e) {

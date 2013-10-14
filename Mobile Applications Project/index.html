@@ -5,32 +5,28 @@
         <meta charset="utf-8" />
         <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
         <link href="styles/main.css" rel="stylesheet" />
+        
+        <link href="kendo/styles/kendo.dataviz.mobile.min.css" rel="stylesheet" />
+
+        <!--Once the final theme is chosen the redundant css reference should removed-->
+        <link href="kendo/styles/kendo.dataviz.flat.min.css" rel="stylesheet" />
+        <link href="kendo/styles/kendo.dataviz.silver.min.css" rel="stylesheet" />
 
         <script src="cordova.js"></script>
         <script src="kendo/js/jquery.min.js"></script>
         <script src="kendo/js/kendo.mobile.min.js"></script>
+        <script src="kendo/js/kendo.dataviz.mobile.min.js"></script>
         <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>-->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script type="text/javascript" charset="utf-8" src="Plugins/com.phonegap.plugins.sqlite-0.0.4/www/SQLitePlugin.js"></script>
 
         <script src="scripts/utilities.js"></script>
+        <script src="scripts/chart.js"></script>
         <script src="scripts/database.js"></script>
         <script src="scripts/location.js"></script>
         <script src="scripts/mymap.js"></script>
+        <script src="scripts/capture.js"></script>
         <script src="scripts/app.js"></script>
-        
-        <style>
-            .city-item {
-                display: inline-block; 
-                color: Black;
-            }
-            .city-item>.city-name{
-                float: left;
-            }
-            .city-item>.city-lastvisitdate{
-                float: right;
-            }
-        </style>
     </head>
     
     <body>
@@ -39,10 +35,10 @@
              data-id="home-view"
              data-role="view"  
              data-title="Home"
+             data-show="app.initializeChart"
              data-layout="main-layout">
-            <span data-bind="text: app.cities.length"></span>
             
-            <!--TODO: bind field to visited/all cities-->
+            <div id="chart"></div>
             
         </div>
         
@@ -69,7 +65,7 @@
             <li class="city-item" #if (visited) {
             #style="background:rgb(176,231,193)"#}
                 else {
-            #style="background:lightgrey"#}#>
+            #style="background:lightgrey; color:darkgrey;"#}#>
                 <div class="city-name">#: name #</div>
                 <div class="city-lastvisitdate">#: date #</div>
             </li>

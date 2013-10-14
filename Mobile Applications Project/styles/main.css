@@ -289,3 +289,15 @@ body, html {
         background-size:100%;
     }
 }
+
+/* Custom rules */
+.city-item {
+    display: inline-block; 
+    color: Black;
+}
+.city-item>.city-name{
+    float: left;
+}
+.city-item>.city-lastvisitdate{
+    float: right;
+}
