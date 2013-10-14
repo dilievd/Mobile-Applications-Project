@@ -24,7 +24,6 @@ var app = app || {};
             sqlite.addCity("Sofia", 42.720786, 23.321013, "");
             sqlite.addCity("Varna", 43.212182, 27.910713, "");
             sqlite.addCity("Veliko Tarnovo", 43.078167, 25.618202, "");
-            //sqlite.markCityAsVisited("Sofia");
         }
         else {
             a.allCitiesCount = rs.rows.length;
@@ -95,40 +94,3 @@ var app = app || {};
     }, false);
 
 })(app);
-
-/*(function(global) {
-    
-    var app = global.app = global.app || {};
-    
-    sqlite.addCity("Sofia", "42.720786", "23.321013", "");
-    
-    var viewModel = kendo.observable({
-        cities:[]
-    });
-    
-    function getDataSource() {
-        var citiesFromDb = [];
-        sqlite.getCities(getCities);
-        function getCities(tx, rs) {
-            for (var i = 0; i < rs.rows.length; i++) {
-                citiesFromDb.push(rs.rows.item(i));
-            }
-           
-            viewModel.set("cities", citiesFromDb);
-        }
-    }
-    
-    function init(e) {
-        kendo.bind(e.view.element, viewModel);
-        getDataSource();       
-    }
-    
-    document.addEventListener("deviceready", function(e) {
-        app.application = new kendo.mobile.Application(document.body, { layout: "main-layout" });
-    }, false);
-    
-    global.cities = {
-        init:init
-    }
-
-})(app);*/

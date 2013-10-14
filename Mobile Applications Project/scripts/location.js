@@ -30,7 +30,7 @@
                         for (var i = 0; i < rs.rows.length; i++) {
                             //rs.rows.item(i)
                             var distance = utilities.getDistance(currLatitude, currLongitude, rs.rows.item(i).latitude, rs.rows.item(i).longitude);
-                            console.log(rs.rows.item(i).name + " - > " + distance); 
+                            console.log(rs.rows.item(i).name + " -> " + distance); 
                             if (distance < 15) {
                                 if (rs.rows.item(i).visited == 1) {
                                     navigator.notification.alert(
@@ -48,7 +48,13 @@
                                         'Got it!'                                                          // buttonName
                                     );
                                 }
-                                 sqlite.markCityAsVisited(rs.rows.item(i).name);
+                                sqlite.markCityAsVisited(rs.rows.item(i).name);
+                                
+                                //update visited cities count
+                                sqlite.getVisitedCities(getVisitedCitiesCount);
+                                function getVisitedCitiesCount(tx, rs) {
+                                    app.visitedCitiesCount = rs.rows.length;
+                                }
                             }
                         }
                     }
@@ -121,7 +127,7 @@
     app.locationService = {
         initLocation: function () {
             var mapOptions = {
-                    zoom: 15,
+                    zoom: 10,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     zoomControl: true,
                     zoomControlOptions: {
@@ -132,7 +138,7 @@
                     streetViewControl: false
                 };
 
-            map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);            
+            map = new google.maps.Map(document.getElementById("currentlocation-canvas"), mapOptions);            
             geocoder = new google.maps.Geocoder();
             app.locationService.viewModel.onNavigateHome.apply(app.locationService.viewModel, []);
         },

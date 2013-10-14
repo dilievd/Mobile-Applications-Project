@@ -1,7 +1,9 @@
-var sqlite = (function() {
-    var app = app || {};
-    app.db = null;
+var app = app || {};
 
+var sqlite = (function() {
+    
+    app.db = null;
+    
     app.openDb = function() {
         if (window.sqlitePlugin !== undefined) {
             app.db = window.sqlitePlugin.openDatabase("ExploreBulgaria");
@@ -28,7 +30,7 @@ var sqlite = (function() {
         app.db.transaction(function(tx) {
             tx.executeSql("INSERT INTO Cities(name, latitude, longitude, date, visited) VALUES (?,?,?,?,?);",
                           [name, latitude, longitude, date, 0],
-                          app.onSuccess,
+                          app.onInsertRecordSuccess,
                           app.onError);
         });
     }
@@ -90,6 +92,12 @@ var sqlite = (function() {
                           app.onSuccess,
                           app.onError);
         });
+    }
+
+    app.onInsertRecordSuccess = function(tx, r) {
+        console.log("Your SQLite 'insert record' query was successful!");
+        app.allCitiesCount = app.allCitiesCount || 0;
+        app.allCitiesCount++;
     }
 
     app.onSuccess = function(tx, r) {

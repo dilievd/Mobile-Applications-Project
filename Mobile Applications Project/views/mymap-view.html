@@ -1,7 +1,13 @@
 <!--My Map-->
 <div id="mymap-view" 
-     data-id="mymap-view"
      data-role="view"  
-     data-title="My Map"
-     data-layout="main-layout">
+     data-title="My Map" 
+     data-init="app.mymapService.initMarkers" 
+     data-show="app.mymapService.show" 
+     data-hide="app.mymapService.hide" 
+     data-model="app.mymapService.viewModel" 
+     data-stretch="true">
+
+    <div id="visitedcities-canvas"></div>
+    
 </div>
