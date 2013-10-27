@@ -8,8 +8,6 @@ var app = app || {};
         getByDate: getByDate
     });
     
-    //sqlite.clearDb();
-    
     sqlite.getVisitedCities(getVisitedCitiesCount);
     function getVisitedCitiesCount(tx, rs) {
         a.visitedCitiesCount = rs.rows.length;

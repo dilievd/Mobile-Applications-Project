@@ -28,24 +28,23 @@
                     sqlite.getCitiesByName(getCities);
                     function getCities(tx, rs) {
                         for (var i = 0; i < rs.rows.length; i++) {
-                            //rs.rows.item(i)
                             var distance = utilities.getDistance(currLatitude, currLongitude, rs.rows.item(i).latitude, rs.rows.item(i).longitude);
                             console.log(rs.rows.item(i).name + " -> " + distance); 
                             if (distance < 15) {
                                 if (rs.rows.item(i).visited == 1) {
                                     navigator.notification.alert(
-                                        'Your last visit here was at: ' + rs.rows.item(i).date + '!',  // message
-                                        function() {},                                                 // callback
-                                        'Welcome back to ' + rs.rows.item(i).name,                     // title
-                                        'Got it!'                                                      // buttonName
+                                        'Your last visit here was at: ' + rs.rows.item(i).date + '!',
+                                        function() {},
+                                        'Welcome back to ' + rs.rows.item(i).name,
+                                        'Got it!'
                                     );
                                 }
                                 else {
                                     navigator.notification.alert(
-                                        'You added ' + rs.rows.item(i).name + ' to your visited cities!',  // message
-                                        function() {},                                                     // callback
-                                        'Welcome!',                                                        // title
-                                        'Got it!'                                                          // buttonName
+                                        'You added ' + rs.rows.item(i).name + ' to your visited cities!',
+                                        function() {},
+                                        'Welcome!',
+                                        'Got it!'
                                     );
                                 }
                                 sqlite.markCityAsVisited(rs.rows.item(i).name);
